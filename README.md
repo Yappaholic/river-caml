@@ -28,10 +28,14 @@ Keybinds.mapKeys x y;;
 (*To check the function definition,
   go to lib/Keybinds.ml or hover with LSP enabled*)
 ```
+### Dependencies
+* Ocaml
+* Opam
+* Dune
+* Spawn (opam package)
 
 ### To build and install
 
-You need to have Ocaml, opam and dune installed.
 Before installing, make sure to backup init file you use for River.
 Then, in the build directory, run:
 
