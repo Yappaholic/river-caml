@@ -1,7 +1,9 @@
 open Config
+(*Define super keys*)
 let defSuper = "Super";;
 let shiftSuper = "Super+Shift";;
 
+(*Config for layout manager*)
 let wideriverConfig = "wideriver \
     --layout left \
     --layout-alt monocle \
@@ -41,12 +43,16 @@ let mouseKeybinds =
    ("BTN_RIGHT", ["resize-view"])] in
 Keybinds.mouseMap defSuper mouseKeybinds;
 
+(*Sets tag switching with Super and Super+Shift keys*)
 Keybinds.setTags defSuper shiftSuper;
+
 Keybinds.repeatRate (50,300);
 
 Decorations.borderColor ("0x002b36", "0x93a1a1");
+(*Wrapper for riverctl default-layout*)
 Decorations.layoutConfig "wideriver";
 
+(*Hacky way to launch apps on startup*)
 let autostart =
    ["pipewire";
     "i3bar-river";
@@ -55,8 +61,10 @@ let autostart =
     wideriverConfig] in
 List.iter (fun x -> Util.apply @@ ["riverctl"; "spawn"] @ [x]) autostart;
 
+(*If you want to apply something with riverctl, use Util.apply*)
 Util.apply ["riverctl"; "keyboard-layout"; "-options"; 
             "ctrl:nocaps,grp:ctrl_space_toggle"; "us,ru"];
+
 Util.apply ["riverctl"; "focus-follows-cursor"; "always"];
 
 
