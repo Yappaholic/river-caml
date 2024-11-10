@@ -1,0 +1,4 @@
+(executable
+ (public_name init)
+ (name main)
+ (libraries config spawn))
