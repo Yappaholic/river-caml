@@ -17,7 +17,7 @@ let wideriverConfig = "wideriver \
     --outer-gaps 4 \
     --border-width 2 \
     --border-width-monocle 0 \
-    --border-width-smart-gaps 1 \
+    --border-width-smart-gaps 0 \
     --border-color-focused 0x93a1a1 \
     --border-color-focused-monocle 0x586e75 \
     --border-color-unfocused 0x586e75 \
@@ -26,6 +26,11 @@ let wideriverConfig = "wideriver \
 let normalKeybinds =
   [("C", ["close"]);
    ("Q", ["spawn"; "alacritty"]);
+   ("E", ["spawn"; "emacs"]);
+   ("M", ["spawn"; "wlogout"]);
+   ("F", ["toggle-fullscreen"]);
+   ("Space", ["toggle-float"]);
+   ("T", ["spawn"; "grim -g \"$(slurp)\""]);
    ("B", ["spawn"; "qutebrowser"]);
    ("R", ["spawn"; "bemenu-run"]);
    ("J", ["focus-view"; "next"]);
@@ -54,16 +59,25 @@ Decorations.layoutConfig "wideriver";
 
 (*Hacky way to launch apps on startup*)
 let autostart =
-   ["pipewire";
+  [ "pipewire";
+    "sleep 2";
     "i3bar-river";
     "swww-daemon";
     "swww img ~/Downloads/kanagawa-inverted-darker.jpg";
+    "wlsunset -t 3000 -l 56 -L 27";
     wideriverConfig] in
 List.iter (fun x -> Util.apply @@ ["riverctl"; "spawn"] @ [x]) autostart;
 
 (*If you want to apply something with riverctl, use Util.apply*)
-Util.apply ["riverctl"; "keyboard-layout"; "-options"; 
-            "ctrl:nocaps,grp:ctrl_space_toggle"; "us,ru"];
+Util.apply [ "riverctl"; "keyboard-layout"; "-options";
+      "ctrl:nocaps,grp:toggle"; "us,ru"   ];
+
+(*Scratchpad on tag #5 with tag-mask*)
+Util.apply [ "riverctl"; "map"; "normal"; "Super"; "S";
+             "toggle-focused-tags"; "16"  ];
+Util.apply [ "riverctl"; "map"; "normal"; "Super+Shift"; "S";
+             "set-view-tags"; "16"  ];
+Util.apply [ "riverctl"; "spawn-tagmask"; "16"  ];
 
 Util.apply ["riverctl"; "focus-follows-cursor"; "always"];
 
